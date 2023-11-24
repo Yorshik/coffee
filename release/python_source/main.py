@@ -3,9 +3,11 @@ import sys
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+import main_ui
+import addEditCoffeeForm
 
 
-class AddEditCoffeForm(QMainWindow):
+class AddEditCoffeForm(QMainWindow, addEditCoffeeForm.Ui_Form):
     def __init__(self, what: list | str, parent=None):
         super().__init__(parent)
         self.what = what
@@ -18,7 +20,7 @@ class AddEditCoffeForm(QMainWindow):
         self.setup()
 
     def setup(self):
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         if self.what[0] == 'edit':
             self.load(self.what[1])
         self.save_button.clicked.connect(self.save)
@@ -53,14 +55,14 @@ class AddEditCoffeForm(QMainWindow):
         self.V_V.setText(lst[6])
 
 
-class Espresso(QMainWindow):
+class Espresso(QMainWindow, main_ui.Ui_Form):
     def __init__(self):
         super().__init__()
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.con = sqlite3.connect('./../../data/coffee.sqlite')
         self.setup()
 
     def setup(self):
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.loadData()
         self.add_button.clicked.connect(self.add)
         self.tableWidget.itemClicked.connect(self.item_clicked)
